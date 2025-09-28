@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookHaven Store</title>
+<style>
+/* ===== Base Styles ===== */
+* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+body { font-family:'TimesNewRoman'; background:#1c1c1c; color:#fff; line-height:1.6; text-align:center; }
+a { text-decoration:none; color:inherit; }
+img { max-width:100%; height:auto; border-radius:6px; }
+.container { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; flex-direction:column; align-items:center; }
+
+/* ===== Header ===== */
+header { background:#b71c1c; color:white; padding:12px 0; box-shadow:0 2px 10px rgba(0,0,0,0.3); position:sticky; top:0; z-index:1000; width:100%; }
+.header-container { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; max-width:1200px; margin:0 auto; }
+.logo { font-size:1.6rem; font-weight:bold; cursor:pointer; }
+.nav-links { display:flex; list-style:none; gap:20px; transition: all 0.3s ease; }
+.nav-links a { color:white; font-weight:500; transition:color 0.3s ease; cursor:pointer; }
+.nav-links a:hover { color:#ffeb3b; }
+.mobile-menu-btn { display:none; font-size:1.8rem; background:none; border:none; color:white; cursor:pointer; }
+
+/* ===== Hero Section ===== */
+.hero { background:url("https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1350&q=80") no-repeat center/cover; height:280px; display:flex; justify-content:center; align-items:center; text-align:center; color:white; position:relative; width:100%; transition: height 0.3s ease; }
+.hero::after { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); }
+.hero h1 { position:relative; font-size:2rem; z-index:1; }
+.hero p { position:relative; z-index:1; margin-top:10px; font-size:1.1rem; }
+.hero button { position:relative; z-index:1; margin-top:15px; padding:10px 20px; background:#b71c1c; border:none; border-radius:5px; cursor:pointer; font-weight:bold; color:white; }
+
+/* ===== About Section ===== */
+.about { padding:40px 20px; text-align:center; background:#2c2c2c; border-radius:8px; margin:20px 0; width:100%; display:flex; flex-direction:column; align-items:center; }
+.about h2 { color:#ff3d00; margin-bottom:15px; font-size:1.8rem; }
+.about p { max-width:800px; margin:0 auto; font-size:1rem; color:#ddd; line-height:1.5; }
+.about .features { margin-top:30px; display:flex; flex-wrap:wrap; justify-content:center; gap:30px; }
+.about .feature-card { flex:1 1 250px; background:#1c1c1c; padding:15px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.5); text-align:center; }
+.about .feature-card h3 { color:#ff3d00; margin-bottom:10px; }
+.about .feature-card p { font-size:0.9rem; color:#ccc; }
+
+/* ===== Section Titles ===== */
+section h2 { text-align:center; margin-bottom:25px; font-size:1.8rem; color:#ff3d00; font-weight:bold; }
+
+/* ===== Books Section ===== */
+.books { margin:40px 0; width:100%; }
+.filters { text-align:center; margin-bottom:20px; }
+.filters button { padding:6px 12px; margin:5px; border:none; background:#b71c1c; color:white; border-radius:5px; cursor:pointer; transition: background 0.3s ease; }
+.filters button:hover { background:#c62828; }
+.book-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; justify-content:center; }
+.book-item { background:#2c2c2c; padding:10px; border-radius:6px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.7); transition: transform 0.3s ease; min-height:360px; display:flex; flex-direction:column; justify-content:space-between; }
+.book-item img { height:180px; object-fit:cover; margin-bottom:5px; border-radius:4px; }
+.book-item h3 { font-size:0.95rem; margin:3px 0; color:#ff3d00; }
+.book-item p { font-size:0.8rem; color:#ccc; margin-bottom:3px; }
+.price { color:#ff3d00; font-weight:bold; font-size:0.9rem; }
+.add-cart { padding:5px 8px; border:none; border-radius:5px; background:#b71c1c; color:white; cursor:pointer; font-size:0.75rem; }
+.add-cart:hover { background:#c62828; }
+
+/* ===== Best Sellers ===== */
+.best-sellers { margin:40px 0; width:100%; }
+.best-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; justify-content:center; }
+.best-item { background:#2c2c2c; padding:10px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.7); text-align:center; }
+.best-item img { height:200px; object-fit:cover; margin-bottom:5px; border-radius:4px; }
+.best-item h3 { font-size:1rem; margin-bottom:5px; color:#ff3d00; }
+.best-item p { font-size:0.85rem; color:#ccc; }
+
+/* ===== Contact Section ===== */
+.contact { background:#2c2c2c; padding:30px 20px; border-radius:8px; margin:40px 0; text-align:center; width:100%; display:flex; flex-direction:column; align-items:center; }
+.contact-form { display:flex; flex-direction:column; gap:10px; max-width:500px; margin:0 auto; }
+.contact-form input, .contact-form textarea { padding:8px 10px; border:1px solid #555; border-radius:5px; outline:none; background:#1c1c1c; color:white; }
+.contact-form button { padding:8px 15px; border:none; border-radius:5px; background:#b71c1c; color:white; cursor:pointer; transition: background 0.3s ease; }
+.contact-form button:hover { background:#c62828; }
+
+/* ===== Footer ===== */
+footer { background:#111; color:#bbb; text-align:center; padding:15px; font-size:0.85rem; margin-top:40px; }
+
+/* ===== Responsive ===== */
+@media(max-width:1024px){ 
+  .book-grid,.best-grid{grid-template-columns:repeat(2,1fr);} 
+  .about .features{flex-direction:row; justify-content:center;}
+}
+
+@media(max-width:768px){
+  .nav-links{flex-direction:column;background:#8b0000;width:100%;display:none;padding:10px;border-radius:5px;}
+  .nav-links.active{display:flex;}
+  .mobile-menu-btn{display:block;}
+  .hero{height:200px;}
+  .hero h1{font-size:1.6rem;}
+  .hero p{font-size:0.95rem;}
+  
+  /* Books and best sellers: 2 per row on mobile */
+  .book-grid,.best-grid{grid-template-columns:repeat(2,1fr); gap:15px;}
+  .book-item{min-height:auto;}
+  
+  .about .features{flex-direction:column; gap:15px;}
+  .filters button{padding:5px 10px; font-size:0.8rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+<div class="container header-container">
+  <div class="logo" onclick="scrollToSection('home')">📚 BookHaven</div>
+  <button class="mobile-menu-btn">☰</button>
+  <ul class="nav-links">
+    <li><a onclick="scrollToSection('home')">Home</a></li>
+    <li><a onclick="scrollToSection('about')">About</a></li>
+    <li><a onclick="scrollToSection('shop')">Shop</a></li>
+    <li><a onclick="scrollToSection('best')">Best Sellers</a></li>
+    <li><a onclick="scrollToSection('contact')">Contact</a></li>
+  </ul>
+</div>
+</header>
+
+<!-- ===== Hero Section ===== -->
+<section class="hero" id="home">
+  <div class="container">
+    <h1>Discover Your Next Favorite Read</h1>
+    <p>Explore thousands of books across all genres, handpicked for avid readers.</p>
+    <button onclick="scrollToSection('shop')">Shop Now</button>
+  </div>
+</section>
+
+<!-- ===== About Section ===== -->
+<section class="about container" id="about">
+  <h2>About BookHaven</h2>
+  <p>BookHaven is your one-stop online bookstore offering curated collections of fiction, non-fiction, and classic literature. Enjoy a seamless shopping experience with top recommendations and best-selling titles.</p>
+  
+  <div class="features">
+    <div class="feature-card">
+      <h3>Fiction</h3>
+      <p>Immerse yourself in thrilling stories and imaginative worlds.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Non-Fiction</h3>
+      <p>Learn from real-life experiences, history, and expert insights.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Classics</h3>
+      <p>Timeless masterpieces that shaped literature across centuries.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Shop Section ===== -->
+<section class="books container" id="shop">
+  <h2>Featured Books</h2>
+  <div class="filters">
+    <button onclick="filterBooks('all')">All</button>
+    <button onclick="filterBooks('fiction')">Fiction</button>
+    <button onclick="filterBooks('non-fiction')">Non-Fiction</button>
+    <button onclick="filterBooks('classic')">Classics</button>
+  </div>
+  
+  <div class="book-grid">
+    <!-- Fiction -->
+    <div class="book-item" data-category="fiction">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/81s6DUyQCZL.jpg" alt="To Kill a Mockingbird">
+      <h3>To Kill a Mockingbird</h3>
+      <p class="price">$11.50</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+    <div class="book-item" data-category="fiction">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg" alt="The Great Gatsby">
+      <h3>The Great Gatsby</h3>
+      <p class="price">$12.99</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+
+    <!-- Non-Fiction -->
+    <div class="book-item" data-category="non-fiction">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg" alt="Sapiens">
+      <h3>Sapiens</h3>
+      <p class="price">$15.50</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+    <div class="book-item" data-category="non-fiction">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/91SZSW8qSsL.jpg" alt="Educated">
+      <h3>Educated</h3>
+      <p class="price">$13.99</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+
+    <!-- Classics -->
+    <div class="book-item" data-category="classic">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/81t2CVWEsUL.jpg" alt="The Odyssey">
+      <h3>The Odyssey</h3>
+      <p class="price">$10.99</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+    <div class="book-item" data-category="classic">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7eDT42kU8WqIPUVQHkGjg1j7HBtJy3DDf9w&s" alt="Moby Dick">
+      <h3>Moby Dick</h3>
+      <p class="price">$9.99</p>
+      <button class="add-cart">Add to Cart</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Best Sellers ===== -->
+<section class="best-sellers container" id="best">
+  <h2>Best Sellers</h2>
+  <div class="best-grid">
+    <div class="best-item">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg" alt="The Great Gatsby">
+      <h3>The Great Gatsby</h3>
+      <p>Top-selling fiction book</p>
+    </div>
+    <div class="best-item">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg" alt="Sapiens">
+      <h3>Sapiens</h3>
+      <p>Popular non-fiction bestseller</p>
+    </div>
+    <div class="best-item">
+      <img src="https://images-na.ssl-images-amazon.com/images/I/81t2CVWEsUL.jpg" alt="The Odyssey">
+      <h3>The Odyssey</h3>
+      <p>Classic literature favorite</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact Section ===== -->
+<section class="contact container" id="contact">
+  <h2>Contact Us</h2>
+  <p>Have questions? Reach out to our support team below.</p>
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Email Address" required>
+    <textarea rows="5" placeholder="Your Message"></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  &copy; 2025 BookHaven Store. All rights reserved.
+</footer>
+
+<!-- ===== Scripts ===== -->
+<script>
+// Mobile menu toggle
+const mobileBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
+mobileBtn.addEventListener('click', ()=>navLinks.classList.toggle('active'));
+
+// Scroll to section
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+// Filter books
+function filterBooks(category){
+  const books = document.querySelectorAll('.book-item');
+  books.forEach(book=>{
+    book.style.display=(category==='all'||book.dataset.category===category)?'flex':'none';
+  });
+}
+</script>
+</body>
+</html>
